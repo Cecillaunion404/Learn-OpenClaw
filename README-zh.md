@@ -16,14 +16,14 @@
    default = true
    ```
    - 你可能需要llm api-key，推荐[kimi](https://platform.moonshot.cn/docs/overview)或者[智谱](https://open.bigmodel.cn)
-   - 配置环境变量`OPENAI_API_KEY`和`OPENAI_BASE_URL`，并且尝试运行[`core/llm.py`](https://github.com/lasywolf/poipoi-agent/blob/main/core/llm.py)
+   - 配置环境变量`OPENAI_API_KEY`和`OPENAI_BASE_URL`，并且尝试运行[`core/llm.py`](./core/llm.py)
 
 2. 实现 Node / Workflow / Agent （阅读需约1小时）
    - 我们最终的目标是造一个Agent，能够联网搜索、运行命令行、文件编辑。
-   - Agent底层可以使用Node来抽象，我已经准备好了一个极简的实现，可以看[`core/node.py`](https://github.com/lasywolf/poipoi-agent/blob/main/core/node.py)，不到60行就实现了一个Agent的轻框架，实在是太容易理解了！如果没有py基础看不懂，可以把代码复制给ai让它来解释。
-   - 但我们应该怎么去用Node呢，我们可以新建3个Node并把它们串起来实现功能`接收输入->上网搜索->大模型生成总结`，恭喜你已经实现了workflow，相关实现已经在[`examples/workflow`](https://github.com/lasywolf/poipoi-agent/tree/main/examples/workflow)
-   - 现在新建个workflow，实现功能`接收用户输入->大模型回复`，并且loop反复调用这个workflow，恭喜你已经实现了chatbot，相关实现已经在[`examples/chatbot`](https://github.com/lasywolf/poipoi-agent/tree/main/examples/chatbot)
-   - 现在尝试给chatbot一些tools(下文会详细讲tool)，让它能够上网搜索东西、编辑文件、运行命令行，恭喜你已经实现了agent，相关实现已经在[`examples/chatbot_with_tools`](https://github.com/lasywolf/poipoi-agent/tree/main/examples/chatbot_with_tools)
+   - Agent底层可以使用Node来抽象，我已经准备好了一个极简的实现，可以看[`core/node.py`](./core/node.py)，不到60行就实现了一个Agent的轻框架，实在是太容易理解了！如果没有py基础看不懂，可以把代码复制给ai让它来解释。
+   - 但我们应该怎么去用Node呢，我们可以新建3个Node并把它们串起来实现功能`接收输入->上网搜索->大模型生成总结`，恭喜你已经实现了workflow，相关实现已经在[`examples/workflow`](./examples/workflow)
+   - 现在新建个workflow，实现功能`接收用户输入->大模型回复`，并且loop反复调用这个workflow，恭喜你已经实现了chatbot，相关实现已经在[`examples/chatbot`](./examples/chatbot)
+   - 现在尝试给chatbot一些tools(下文会详细讲tool)，让它能够上网搜索东西、编辑文件、运行命令行，恭喜你已经实现了agent，相关实现已经在[`examples/chatbot_with_tools`](./examples/chatbot_with_tools)
    - 总结：**workflow = node + node**、**chatbot = workflow + loop**、 **agent = chatbot + tools = workflow + loop(循环) + tools**
    - 恭喜你已经懂Agent了！可能你现在会有疑惑“这么简单的一个轻框架能有用吗，为什么选择 PoiFlow/自己造轻框架/PocketFlow 而不是 LangChain / Dify / Coze / Google ADK / Spring AI”，
    并且我并没有看到过有人用langchain开发出来好产品，以及langchain还出过非常严重安全漏洞 [CVE-2025-68664](https://github.com/advisories/GHSA-c67j-w6g6-q2cm)，以及存在过度抽象、依赖地狱、bug多、不灵活难以定制等问题。事实上优秀的agent都是采用自己搭建轻框架来开发的，例如[kimi-cli](https://platform.moonshot.cn/docs/overview)、[pi-mono](https://github.com/badlogic/pi-mono)、[Pocketflow-examples](https://github.com/The-Pocket/PocketFlow/tree/main/cookbook)等等，所以非常推荐自己搭建轻框架或者直接调用llm api来开发。
@@ -46,7 +46,7 @@
    - MCP来源：为了解决Tool实现参差不齐的现象，anthropic定了一个Tool的标准，也就是[MCP(Model Context Protocol)](https://modelcontextprotocol.io/docs/getting-started/intro)（感觉不如叫Remote Tool Protocol更易读），让各个Tool能够远程“即插即用”，看起来非常棒只要提供了MCP服务就能实现ai从just chat到do something的转变，于是2025年各个公司疯狂都在推行自己的MCP服务
    - Skill来源：但人们渐渐发现了MCP的弊端：每次调用llm时候，都会把在prompt额外加上MCP的所有Tool的信息（包括name、parameters、description等等），发现大部分MCP服务并没有想象的那么有用，以及导致性能变差以及token浪费，anthropic在blog描述了这件事 [Code execution with MCP: Building more efficient agents](https://www.anthropic.com/engineering/code-execution-with-mcp)，并分享了它们的解决方案，就是**渐进式加载**和**多用代码执行**，后来anthropic发布了[skill](https://support.claude.com/en/articles/12512176-what-are-skills)就和这个差不多，重点就是**渐进式加载**和**多用代码执行**。
    - 设计Tool：实际Agent并不需要那么多五花八门的Tool，最重要的是linux中的bash、edit、find、grep、ls、read、write命令，这些就已经能做很多事且做得非常好，Vercel[通过移除大部分的Tool反而提高了text-to-sql从80%到100%](https://vercel.com/blog/we-removed-80-percent-of-our-agents-tools)，以及pi-mono极简coding-agent作者提到[这四个工具就是构建有效 Coding Agent 所需的全部：read、write、edit、bash](https://mariozechner.at/posts/2025-11-30-pi-coding-agent/)
-   - 实践：可以阅读[`tools`](https://github.com/lasywolf/poipoi-agent/tree/main/tools)和[`examples/chatbot_with_tools`](https://github.com/lasywolf/poipoi-agent/tree/main/examples/chatbot_with_tools)文件夹里的实现
+   - 实践：可以阅读[`tools`](./tools)和[`examples/chatbot_with_tools`](./examples/chatbot_with_tools)文件夹里的实现
    - 总结: MCP是Remote Tool，Skill是Local Tool，尽量不要设计Tool并且优先用linux的bash来解决问题
 
 5. 实现 Context / Memory（阅读需约1分钟）
