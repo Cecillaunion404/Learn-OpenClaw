@@ -92,7 +92,7 @@ export ANTHROPIC_API_KEY=sk-m7q...
 PS: 已经很多同学通过看我的教程找到了实习。
 1. 了解面试都会问什么，以及项目推荐（阅读需约1小时）
    - agent 面试只问项目，没有八股
-   - 问你的项目，推荐实现你的 Openclaw，项目名字就写XXXClaw，例如我就写PoiClaw。具体为实现 pi-mono 和调用 pm2 以及 im 接口，clone pimono然后使用你的cursor、claude或其他ai工具，让它分析pi-mono整体架构流程看看分为哪些模块，然后你阅读和理解这些模块，vide coding出来，最终你能实现一个属于你自己的coding-agent，然后使用pm2让它长期跑以及接入im。（可能需要2天 * 8小时来完成）
+   - 问你的项目，推荐实现你的 Openclaw，项目名字就写XXXClaw，例如我就写PoiClaw。具体为实现 pi-mono 和调用 pm2 以及 im 接口，clone pimono然后使用你的cursor、claude或其他ai工具，让它分析pi-mono整体架构流程看看分为哪些模块，其中只需要看pi-ai、pi-agent-core、pi-coding-agent、pi-mom这些模块，vide coding出来，最终你能实现一个属于你自己的coding-agent，然后使用pm2让它长期跑以及接入im（可能需要2天 * 8小时来完成）
    - 可能会问以下内容，所以你需要知道整个流程运转（但不一定要实践出来）：Agent 效果可评估、提示词自动优化、Agentic Sandbox、Agent Teams
    - 推荐编写简历的开源免费网站rxresu.me
    - 注意不要写智能客服项目(langchain/dify + rag)，这真的很过时了
