@@ -9,7 +9,7 @@ from typing import Any, Tuple
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from core.llm import call_llm
+from core.llm import call_llm_simple
 from core.node import Node, Flow, shared
 
 
@@ -23,7 +23,7 @@ class ChatNode(Node):
         prompt = self._build_prompt(messages)
 
         # 调用 LLM
-        response = call_llm(prompt)
+        response = call_llm_simple(prompt)
 
         # 保存到历史
         messages.append({"role": "assistant", "content": response})

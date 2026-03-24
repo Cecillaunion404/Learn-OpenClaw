@@ -12,7 +12,7 @@ from typing import Any, Tuple
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from core.llm import call_llm
+from core.llm import call_llm_simple
 from core.node import Node, Flow
 from tools.builtins.search import search as search_ddgs
 
@@ -39,7 +39,7 @@ class SummarizeNode(Node):
 
     def exec(self, payload: Any) -> Tuple[str, Any]:
         prompt = f"基于以下要点写一句话摘要：{payload}"
-        text = call_llm(prompt)
+        text = call_llm_simple(prompt)
         return "default", text
 
 

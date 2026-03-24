@@ -6,29 +6,31 @@ from typing import Any
 from openai import OpenAI
 
 
-def call_llm(
-    prompt: str | None = None,
-    messages: list[dict[str, Any]] | None = None,
-    tools: list[dict[str, Any]] | None = None,
-    system_prompt: str | None = None,
-) -> str | dict[str, Any]:
+def call_llm_simple(prompt: str) -> str:
     """
-    统一 LLM 调用入口。
-
-    - 兼容旧用法: 传 prompt（且不传 messages/tools）时返回字符串
-    - 工具模式: 传 messages 或 tools 时返回 assistant message 字典
+    简单文本生成接口：输入 prompt，返回字符串。
     """
     client = OpenAI(
         api_key=os.environ.get("OPENAI_API_KEY"),
         base_url=os.environ.get("OPENAI_BASE_URL"),
     )
+    response = client.chat.completions.create(
+        model="kimi-k2.5",
+        messages=[{"role": "user", "content": prompt}],
+    )
+    message = response.choices[0].message
+    return message.content or ""
 
-    if messages is not None:
-        msgs = list(messages)
-    elif prompt is not None:
-        msgs = [{"role": "user", "content": prompt}]
-    else:
-        raise ValueError("Either prompt or messages must be provided")
+
+def call_llm(
+    messages: list[dict[str, Any]],
+    tools: list[dict[str, Any]] | None = None,
+    system_prompt: str | None = None,
+) -> dict[str, Any]:
+    """
+    消息/工具模式接口：返回 assistant message 字典。
+    """
+    msgs = list(messages)
 
     if system_prompt:
         msgs = [{"role": "system", "content": system_prompt}, *msgs]
@@ -41,12 +43,12 @@ def call_llm(
         kwargs["tools"] = tools
         kwargs["tool_choice"] = "auto"
 
+    client = OpenAI(
+        api_key=os.environ.get("OPENAI_API_KEY"),
+        base_url=os.environ.get("OPENAI_BASE_URL"),
+    )
     response = client.chat.completions.create(**kwargs)
     message = response.choices[0].message
-
-    # 兼容老示例（chatbot/workflow）: 只要是简单 prompt 模式就返回字符串
-    if messages is None and tools is None and system_prompt is None:
-        return message.content or ""
 
     result: dict[str, Any] = {
         "role": "assistant",
@@ -64,4 +66,4 @@ def call_llm(
 
 
 if __name__ == "__main__":
-    print("Basic:", call_llm("用一句话解释什么是 Agent。"))
+    print("Basic:", call_llm_simple("用一句话解释什么是 Agent。"))
